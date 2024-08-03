@@ -1,0 +1,16 @@
+body {
+    color: white;
+}
+.question {
+    border: 2px solid cyan;
+    height: 100%;
+}
+.question h3 {
+    border-bottom: 1px solid black;
+}
+.results {
+    margin: 20px;
+    padding: 20px;
+    border: 2px solid grey;
+    border-radius: 10px;
+}
