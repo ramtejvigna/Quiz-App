@@ -1,0 +1,25 @@
+.high-score-table {
+    width: 100%;
+    margin: 20px auto;
+    border-collapse: collapse;
+}
+
+.high-score-table th,
+.high-score-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+.high-score-table th {
+    background-color: #f2f2f2;
+    color: black;
+}
+
+.high-score-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.high-score-table tr:hover {
+    background-color: #ddd;
+}

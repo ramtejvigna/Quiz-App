@@ -1,0 +1,32 @@
+.question-container {
+    margin: 20px;
+}
+
+.question {
+    border: 1px solid #ddd;
+    padding: 10px;
+    margin-bottom: 10px;
+    background-color: #f9f9f9;
+}
+
+.question:hover {
+    background-color: #f1f1f1;
+}
+
+.submit-btn {
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+.submit-btn:hover {
+    background-color: #45a049;
+}
+
+.results {
+    margin-top: 20px;
+    font-size: 18px;
+}
