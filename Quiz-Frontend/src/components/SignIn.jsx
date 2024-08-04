@@ -1,5 +1,4 @@
 import * as React from 'react';
-import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
@@ -8,31 +7,75 @@ import Checkbox from '@mui/material/Checkbox';
 import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Header from './Header';
-import './Credentials.css'
+import './Credentials.css';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 
-const defaultTheme = createTheme();
+const defaultTheme = createTheme({
+  components: {
+    MuiTextField: {
+      styleOverrides: {
+        root: {
+          '& .MuiInputBase-root': {
+            color: 'white', // Change text color to white
+          },
+          '& .MuiInputLabel-root': {
+            color: 'white', // Change label color to white
+          },
+          '& .MuiOutlinedInput-root': {
+            '& fieldset': {
+              borderColor: 'white', // Change border color to white
+            },
+            '&:hover fieldset': {
+              borderColor: 'white',
+            },
+            '&.Mui-focused fieldset': {
+              color: 'white',
+              borderColor: 'white',
+            },
+          },
+        },
+      },
+    },
+  },
+});
+
 
 export default function SignIn() {
+  const navigate = useNavigate();
+
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
+    const userData = {
+      username: data.get('username'),
+      password: data.get('password')
+    };
+
+    axios.post('http://localhost:3001/signin', userData)
+      .then(response => {
+        if (response.data === "Success") {
+          // Redirect to home page with username in the URL
+          navigate(`/${userData.username}`);
+        } else {
+          alert(response.data); // Show error message
+        }
+      })
+      .catch(error => {
+        console.error("There was an error logging in!", error);
+      });
   };
 
   return (
     <>
       <Header />
       <ThemeProvider theme={defaultTheme}>
-        <Container component="main" maxWidth="xs" className="text-white">
+        <Container component="main" maxWidth="sm" className="text-white">
           <CssBaseline />
           <Box
             sx={{
@@ -51,10 +94,10 @@ export default function SignIn() {
                 margin="normal"
                 required
                 fullWidth
-                id="email"
-                label="Email Address"
-                name="email"
-                autoComplete="email"
+                id="username"
+                label="Username"
+                name="username"
+                autoComplete="username"
                 autoFocus
               />
               <TextField
@@ -66,10 +109,6 @@ export default function SignIn() {
                 type="password"
                 id="password"
                 autoComplete="current-password"
-              />
-              <FormControlLabel
-                control={<Checkbox value="remember" color="primary" />}
-                label="Remember me"
               />
               <Button
                 type="submit"
@@ -96,6 +135,5 @@ export default function SignIn() {
         </Container>
       </ThemeProvider>
     </>
-
   );
 }

@@ -14,25 +14,62 @@ mongoose.connect("mongodb://localhost:27017/Quiz-App");
 app.post("/saveScore", (req, res) => {
     const { username, categoryId, correct, incorrect } = req.body;
 
-    Score.findOne({ username, categoryId })
-        .then((score) => {
-            if (score) {
-                // User has already taken the test for this category, update the score if the new score is better
-                if (correct > score.correct) {
-                    score.correct = correct;
-                    score.incorrect = incorrect;
-                    score.save()
-                        .then(updatedScore => res.json(updatedScore))
-                        .catch(err => res.json(err));
+    Score.findOne({ username })
+        .then(userScores => {
+            if (userScores) {
+                // Find the existing score for the given category
+                const existingScore = userScores.scores.find(score => score.categoryId === categoryId);
+
+                if (existingScore) {
+                    // Update score if the new score is better
+                    if (correct + incorrect > existingScore.total) {
+                        existingScore.correct = correct;
+                        existingScore.incorrect = incorrect;
+                        existingScore.total = correct + incorrect;
+                        userScores.save()
+                            .then(updatedScore => res.json(updatedScore))
+                            .catch(err => res.json(err));
+                    } else {
+                        res.json(userScores); // No update needed
+                    }
                 } else {
-                    res.json(score); // No update needed
+                    // Add new score entry if it doesn't exist
+                    userScores.scores.push({ categoryId, correct, incorrect, total: correct + incorrect });
+                    userScores.save()
+                        .then(newScore => res.json(newScore))
+                        .catch(err => res.json(err));
                 }
             } else {
-                // User has not taken the test for this category, create a new score entry
-                Score.create({ username, categoryId, correct, incorrect })
+                // Create a new user entry with the score
+                const newScore = new Score({
+                    username,
+                    scores: [{ categoryId, correct, incorrect, total: correct + incorrect }]
+                });
+                newScore.save()
                     .then(newScore => res.json(newScore))
                     .catch(err => res.json(err));
             }
+        })
+        .catch(err => res.json(err));
+});
+
+
+app.get("/highscores", (req, res) => {
+    Score.find()
+        .then(users => {
+            // Flatten the scores array
+            const allScores = users.flatMap(user => 
+                user.scores.map(score => ({
+                    username: user.username,
+                    categoryId: score.categoryId,
+                    correct: score.correct,
+                    incorrect: score.incorrect,
+                    total: score.total
+                }))
+            );
+
+            allScores.sort((a, b) => b.total - a.total);
+            res.json(allScores);
         })
         .catch(err => res.json(err));
 });
@@ -52,7 +89,7 @@ app.get("/userExists/:userId", (req, res) => {
 
 app.post("/signup", (req, res) => {
     User.create(req.body)
-        .then(result => res.json(result))
+        .then(result => {res.json(result); console.log("SignUp succesfull");})
         .catch(err => res.json(err));
 });
 
@@ -63,6 +100,7 @@ app.post("/signin", (req,res) => {
             if(user) {
                 if(password === user.password) {
                     res.json("Success");
+                    console.log("Successfully logged in.");
                 } else {
                     res.json("Password Incorrect");
                 }

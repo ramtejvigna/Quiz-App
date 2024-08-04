@@ -101,7 +101,7 @@ export default function QuizQuestions() {
 
     return (
         <>
-            <Header />
+            <Header user={userId} />
             <div className="question-container">
                 <h2 className="text-3xl mb-7">Quiz Questions</h2>
                 {loading ? (

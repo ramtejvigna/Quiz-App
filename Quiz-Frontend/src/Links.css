@@ -7,19 +7,20 @@
 .high-score-table th,
 .high-score-table td {
     border: 1px solid #ddd;
-    padding: 8px;
+    padding: 10px 50px;
+    font-size: 20px;
     text-align: left;
 }
 
 .high-score-table th {
-    background-color: #f2f2f2;
-    color: black;
+    background-color: #353535;
+    color: white;
 }
 
 .high-score-table tr:nth-child(even) {
-    background-color: #f9f9f9;
+    background-color: #3535357f;
 }
 
 .high-score-table tr:hover {
-    background-color: #ddd;
+    background-color: #001a39;
 }

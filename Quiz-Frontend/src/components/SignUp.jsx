@@ -11,28 +11,74 @@ import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import Header from './Header.jsx'
+import Header from './Header.jsx';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import './Credentials.css'
+import './Credentials.css';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
-
-const defaultTheme = createTheme();
+const defaultTheme = createTheme({
+  components: {
+    MuiTextField: {
+      styleOverrides: {
+        root: {
+          '& .MuiInputBase-root': {
+            color: 'white', // Change text color to white
+          },
+          '& .MuiInputLabel-root': {
+            color: 'white', // Change label color to white
+          },
+          '& .MuiOutlinedInput-root': {
+            '& fieldset': {
+              borderColor: 'white', // Change border color to white
+            },
+            '&:hover fieldset': {
+              color: 'white',
+              borderColor: 'white',
+            },
+            '&.Mui-focused fieldset': {
+              borderColor: 'white',
+            },
+          },
+        },
+      },
+    },
+  },
+});
 
 export default function SignUp() {
+  const navigate = useNavigate();
+
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
+    const userData = {
+      firstName: data.get('firstName'),
+      lastName: data.get('lastName'),
+      username: data.get('username'),
       email: data.get('email'),
       password: data.get('password'),
-    });
+    };
+
+    axios.post('http://localhost:3001/signup', userData)
+      .then(response => {
+        if (response.status === 200) {
+          // Redirect to sign-in page after successful signup
+          navigate('/signin');
+        } else {
+          alert('Signup failed. Please try again.');
+        }
+      })
+      .catch(error => {
+        console.error('There was an error signing up!', error);
+      });
   };
 
   return (
     <>
       <Header />
       <ThemeProvider theme={defaultTheme}>
-        <Container component="main" maxWidth="xs">
+        <Container component="main" maxWidth="sm">
           <CssBaseline />
           <Box
             sx={{
@@ -40,12 +86,9 @@ export default function SignUp() {
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'center',
-              color: 'white'
+              color: 'white',
             }}
           >
-            <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-              <LockOutlinedIcon />
-            </Avatar>
             <Typography component="h1" variant="h5">
               Sign up
             </Typography>
@@ -70,6 +113,16 @@ export default function SignUp() {
                     label="Last Name"
                     name="lastName"
                     autoComplete="family-name"
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    required
+                    fullWidth
+                    id="username"
+                    label="Username"
+                    name="username"
+                    autoComplete="username"
                   />
                 </Grid>
                 <Grid item xs={12}>
