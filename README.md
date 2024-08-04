@@ -67,19 +67,19 @@ npm run dev
    - `POST /signup` - Sign up a new user
    - `POST /signin` - Sign in an existing user
    - `GET /userExists/:userId` - Check if a user exists
-3. **Score Routes**
+2. **Score Routes**
    - `POST /saveScores` - Save a user's quiz score
    - `GET /highscores` - Get the scores of users and displays them
 
-### Usage
-1. **Sign Up / Sign In**
-   - Users can sign up for a new account or sign in to an existing account.
-2. **Take Quiz**
-   - After signing in, users can select a quiz category and start answering questions.
-3. **Submit Quiz**
-   - Once the quiz is submitted, the score is calculated and saved to the database.
-4. **View High Scores**
-   - Users can view the high scores of all users, sorted in descending order.
+ ### Usage
+ 1. **Sign Up / Sign In**
+    - Users can sign up for a new account or sign in to an existing account.
+ 2. **Take Quiz**
+    - After signing in, users can select a quiz category and start answering questions.
+ 3. **Submit Quiz**
+    - Once the quiz is submitted, the score is calculated and saved to the database.
+ 4. **View High Scores**
+    - Users can view the high scores of all users, sorted in descending order.
   
 ## Contributing
 Feel free to open issues or submit pull requests for any improvements or bugs you find.
