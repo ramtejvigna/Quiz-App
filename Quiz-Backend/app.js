@@ -22,7 +22,7 @@ app.post("/saveScore", (req, res) => {
 
                 if (existingScore) {
                     // Update score if the new score is better
-                    if (correct + incorrect > existingScore.total) {
+                    if (correct > existingScore.correct) {
                         existingScore.correct = correct;
                         existingScore.incorrect = incorrect;
                         existingScore.total = correct + incorrect;
@@ -68,7 +68,7 @@ app.get("/highscores", (req, res) => {
                 }))
             );
 
-            allScores.sort((a, b) => b.total - a.total);
+            allScores.sort((a, b) => b.correct - a.correct);
             res.json(allScores);
         })
         .catch(err => res.json(err));
@@ -89,7 +89,7 @@ app.get("/userExists/:userId", (req, res) => {
 
 app.post("/signup", (req, res) => {
     User.create(req.body)
-        .then(result => {res.json(result); console.log("SignUp succesfull");})
+        .then(result => res.json(result))
         .catch(err => res.json(err));
 });
 
@@ -100,7 +100,6 @@ app.post("/signin", (req,res) => {
             if(user) {
                 if(password === user.password) {
                     res.json("Success");
-                    console.log("Successfully logged in.");
                 } else {
                     res.json("Password Incorrect");
                 }
