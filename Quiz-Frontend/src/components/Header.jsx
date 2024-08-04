@@ -66,13 +66,14 @@ export default function Header() {
                         </li>
                         {
                             userExists ? (
-                                <li className="relative">
+                                <li className="relative flex flex-col items-center">
                                     <a href="#" onClick={toggleLogout}>
-                                        <img src="" alt="User" />
+                                        <img src="profile.png" alt="User" className="size-10 rounded-full"/>
                                     </a>
                                     {showLogout && (
-                                        <div id="logout" className="absolute top-full mt-2">
-                                            <a href="#" className="text-cyan-300">Logout</a>
+                                        <div id="logout" className="absolute top-full mt-2 bg-slate-950 rounded-xl p-4 px-8 text-cyan-300 flex flex-col">
+                                            <a href="" className="m-2">Dashboard</a>
+                                            <a href="/" className="m-2">Logout</a>
                                         </div>
                                     )}
                                 </li>
