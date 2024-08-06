@@ -15,21 +15,20 @@ import './Credentials.css';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
-
 const defaultTheme = createTheme({
   components: {
     MuiTextField: {
       styleOverrides: {
         root: {
           '& .MuiInputBase-root': {
-            color: 'white', // Change text color to white
+            color: 'white',
           },
           '& .MuiInputLabel-root': {
-            color: 'white', // Change label color to white
+            color: 'white',
           },
           '& .MuiOutlinedInput-root': {
             '& fieldset': {
-              borderColor: 'white', // Change border color to white
+              borderColor: 'white',
             },
             '&:hover fieldset': {
               borderColor: 'white',
@@ -45,7 +44,6 @@ const defaultTheme = createTheme({
   },
 });
 
-
 export default function SignIn() {
   const navigate = useNavigate();
 
@@ -57,13 +55,14 @@ export default function SignIn() {
       password: data.get('password')
     };
 
-    axios.post('https://quiz-app-sigma-lilac.vercel.app/signin', userData)
+    axios.post('https://quiz-app-sigma-lilac.vercel.app/signin', userData, {
+      withCredentials: true // Ensure credentials are included
+    })
       .then(response => {
         if (response.data === "Success") {
-          // Redirect to home page with username in the URL
           navigate(`/${userData.username}`);
         } else {
-          alert(response.data); // Show error message
+          alert(response.data);
         }
       })
       .catch(error => {
