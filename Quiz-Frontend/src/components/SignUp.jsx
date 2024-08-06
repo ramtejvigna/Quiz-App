@@ -60,7 +60,7 @@ export default function SignUp() {
       password: data.get('password'),
     };
 
-    axios.post('http://localhost:3001/signup', userData)
+    axios.post('https://quiz-app-sigma-lilac.vercel.app/signup', userData)
       .then(response => {
         if (response.status === 200) {
           // Redirect to sign-in page after successful signup

@@ -9,7 +9,7 @@ export default function Header() {
 
     useEffect(() => {
         if (userId) {
-            fetch(`http://localhost:3001/userExists/${userId}`)
+            fetch(`https://quiz-app-sigma-lilac.vercel.app/userExists/${userId}`)
                 .then(response => response.json())
                 .then(data => setUserExists(data.exists))
                 .catch(err => console.error("Error fetching user existence:", err));

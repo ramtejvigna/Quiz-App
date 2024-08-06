@@ -12,7 +12,7 @@ function App() {
   useEffect(() => {
     const fetchScores = async () => {
       try {
-        const response = await axios.get('http://localhost:3001/highscores'); // Update the URL to match your backend endpoint
+        const response = await axios.get('https://quiz-app-sigma-lilac.vercel.app/highscores'); // Update the URL to match your backend endpoint
         setScores(response.data);
       } catch (err) {
         setError(err.message);

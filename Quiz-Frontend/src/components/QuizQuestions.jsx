@@ -82,7 +82,7 @@ export default function QuizQuestions() {
         });
 
         // Saving the scores to the database
-        fetch('http://localhost:3001/saveScore', {
+        fetch('https://quiz-app-sigma-lilac.vercel.app/saveScore', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
