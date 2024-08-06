@@ -57,7 +57,7 @@ export default function SignIn() {
       password: data.get('password')
     };
 
-    axios.post('http://localhost:3001/signin', userData)
+    axios.post('https://quiz-app-sigma-lilac.vercel.app/signin', userData)
       .then(response => {
         if (response.data === "Success") {
           // Redirect to home page with username in the URL
