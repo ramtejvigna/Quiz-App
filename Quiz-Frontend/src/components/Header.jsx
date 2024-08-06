@@ -8,7 +8,7 @@ export default function Header() {
     const [showLogout, setShowLogout] = useState(false);
 
     useEffect(() => {
-        if (userId) {
+        if (userId && userId !== 'undefined') {
             fetch(`https://quiz-app-sigma-lilac.vercel.app/userExists/${userId}`)
                 .then(response => response.json())
                 .then(data => setUserExists(data.exists))
@@ -54,29 +54,32 @@ export default function Header() {
                                 About
                             </NavLink>
                         </li>
-                        <li>
-                            <NavLink
-                                to={quizLink}
-                                className={({ isActive }) =>
-                                    isActive ? "text-cyan-300" : ""
-                                }
-                            >
-                                Quiz
-                            </NavLink>
-                        </li>
                         {
                             userExists ? (
-                                <li className="relative flex flex-col items-center">
-                                    <a href="#" onClick={toggleLogout}>
-                                        <img src="profile.png" alt="User" className="size-10 rounded-full"/>
-                                    </a>
-                                    {showLogout && (
-                                        <div id="logout" className="absolute top-full mt-2 bg-slate-950 rounded-xl p-4 px-8 text-cyan-300 flex flex-col">
-                                            <a href="" className="m-2">Dashboard</a>
-                                            <a href="/" className="m-2">Logout</a>
-                                        </div>
-                                    )}
-                                </li>
+                                <>
+                                    <li>
+                                        <NavLink
+                                            to={quizLink}
+                                            className={({ isActive }) =>
+                                                isActive ? "text-cyan-300" : ""
+                                            }
+                                        >
+                                            Quiz
+                                        </NavLink>
+                                    </li>
+
+                                    <li className="relative flex flex-col items-center">
+                                        <a href="#" onClick={toggleLogout}>
+                                            <img src="profile.png" alt="User" className="size-10 rounded-full"/>
+                                        </a>
+                                        {showLogout && (
+                                            <div id="logout" className="absolute top-full mt-2 bg-slate-950 rounded-xl p-4 px-8 text-cyan-300 flex flex-col">
+                                                <a href="" className="m-2">Dashboard</a>
+                                                <a href="/" className="m-2">Logout</a>
+                                            </div>
+                                        )}
+                                    </li>
+                                </>
                             ) : (
                                 <li>
                                     <Link to='/signin'>
