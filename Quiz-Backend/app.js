@@ -2,17 +2,15 @@ const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
 const User = require("./models/User");
-const Score = require("./models/Score"); // Assuming you have a Score model
+const Score = require("./models/Score");
 
 const app = express();
 app.use(express.json());
-app.use(cors(
-    {
-        origin: ["https://quiz-app-pro.vercel.app"],
-        methods: ["POST", "GET"],
-        credentials: true
-    }
-));
+app.use(cors({
+    origin: ["https://quiz-app-pro.vercel.app"],
+    methods: ["POST", "GET"],
+    credentials: true
+}));
 
 mongoose.connect("mongodb://localhost:27017/Quiz-App");
 
@@ -23,11 +21,9 @@ app.post("/saveScore", (req, res) => {
     Score.findOne({ username })
         .then(userScores => {
             if (userScores) {
-                // Find the existing score for the given category
                 const existingScore = userScores.scores.find(score => score.categoryId === categoryId);
 
                 if (existingScore) {
-                    // Update score if the new score is better
                     if (correct > existingScore.correct) {
                         existingScore.correct = correct;
                         existingScore.incorrect = incorrect;
@@ -36,17 +32,15 @@ app.post("/saveScore", (req, res) => {
                             .then(updatedScore => res.json(updatedScore))
                             .catch(err => res.json(err));
                     } else {
-                        res.json(userScores); // No update needed
+                        res.json(userScores);
                     }
                 } else {
-                    // Add new score entry if it doesn't exist
                     userScores.scores.push({ categoryId, correct, incorrect, total: correct + incorrect });
                     userScores.save()
                         .then(newScore => res.json(newScore))
                         .catch(err => res.json(err));
                 }
             } else {
-                // Create a new user entry with the score
                 const newScore = new Score({
                     username,
                     scores: [{ categoryId, correct, incorrect, total: correct + incorrect }]
@@ -59,11 +53,9 @@ app.post("/saveScore", (req, res) => {
         .catch(err => res.json(err));
 });
 
-
 app.get("/highscores", (req, res) => {
     Score.find()
         .then(users => {
-            // Flatten the scores array
             const allScores = users.flatMap(user => 
                 user.scores.map(score => ({
                     username: user.username,
@@ -80,7 +72,6 @@ app.get("/highscores", (req, res) => {
         .catch(err => res.json(err));
 });
 
-// New endpoint to check if a user exists
 app.get("/userExists/:userId", (req, res) => {
     User.findOne({ username: req.params.userId })
         .then((user) => {
@@ -113,6 +104,7 @@ app.post("/signin", (req,res) => {
                 res.json("User not exist");
             }
         })
+        .catch(err => res.json(err));
 });
 
 app.listen(3001, () => {
