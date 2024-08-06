@@ -6,7 +6,13 @@ const Score = require("./models/Score"); // Assuming you have a Score model
 
 const app = express();
 app.use(express.json());
-app.use(cors());
+app.use(cors(
+    {
+        origin: [""],
+        methods: ["POST", "GET"],
+        credentials: true
+    }
+));
 
 mongoose.connect("mongodb://localhost:27017/Quiz-App");
 
