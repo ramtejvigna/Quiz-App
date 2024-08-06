@@ -16,7 +16,7 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 
-mongoose.connect("mongodb+srv://vignaramtejtelagarapu:Ramtej123@blogspot.np17yrq.mongodb.net/?retryWrites=true&w=majority&appName=Blogspot");
+mongoose.connect("mongodb+srv://vignaramtejtelagarapu:Ramtej123@blogspot.np17yrq.mongodb.net/?retryWrites=true&w=majority&appName=Blogspot", { useNewUrlParser: true, useUnifiedTopology: true });
 
 // Endpoint to save or update scores
 app.post("/saveScore", (req, res) => {
