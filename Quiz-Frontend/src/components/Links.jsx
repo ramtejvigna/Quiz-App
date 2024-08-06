@@ -1,7 +1,7 @@
 import { Link, useParams } from "react-router-dom";
 import '../Links.css';
 import '../App.css';
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export default function Links() {
   const { userId } = useParams();
