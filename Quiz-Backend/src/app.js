@@ -1,22 +1,19 @@
 const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
-const User = require("./models/User");
-const Score = require("./models/Score");
+const User = require("../models/User");
+const Score = require("../models/Score");
 
 const app = express();
 app.use(express.json());
-
-const corsOptions = {
+app.use(cors({
     origin: "https://quiz-app-pro.vercel.app",
     methods: ["POST", "GET"],
     credentials: true,
     allowedHeaders: ["Content-Type", "Authorization"]
-};
+}));
 
-app.use(cors(corsOptions));
-
-mongoose.connect("mongodb+srv://vignaramtejtelagarapu:Ramtej123@blogspot.np17yrq.mongodb.net/?retryWrites=true&w=majority&appName=Blogspot");
+mongoose.connect("mongodb+srv://vignaramtejtelagarapu:Ramtej123@blogspot.np17yrq.mongodb.net/Quiz-App?retryWrites=true&w=majority&appName=Blogspot");
 
 // Endpoint to save or update scores
 app.post("/saveScore", (req, res) => {
